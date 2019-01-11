@@ -26,21 +26,21 @@ func (fh *FileHandler) Close() {
 }
 
 //ReadLine reads the next line
-func (fh *FileHandler) ReadLine() *string {
+func (fh *FileHandler) ReadLine() string {
 	line := ""
 	buf := make([]byte, 1)
 	for {
 		_, err := fh.file.Read(buf)
 		if err == io.EOF {
 			fh.EOF = true
-			return &line
+			return line
 		}
 		check(err)
 		line = line + string(buf)
 
 		if strings.Index(line, "\r\n") != -1 {
 			result := strings.Trim(line, "\r\n")
-			return &result
+			return result
 		}
 	}
 }
