@@ -42,4 +42,5 @@ This library extended the Go file handling APIs. This provides some useful funct
 (*FileHandler) ReadLines() []string
 (*FileHandler) ReadBlock(start int64, count int64) string
 (*FileHandler) ReadToEnd() string
+(*FileHandler) Reset()
 ```

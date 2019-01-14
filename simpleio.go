@@ -121,6 +121,11 @@ func (fh *FileHandler) GetLength() int64 {
 
 }
 
+//Reset will set file reading start position to 0
+func (fh *FileHandler) Reset() {
+	fh.file.Seek(0, 0)
+}
+
 func check(e error) {
 	if e != nil {
 		fmt.Println(e.Error())
