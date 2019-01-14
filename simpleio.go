@@ -10,6 +10,7 @@ import (
 //FileHandler represents a text file
 type FileHandler struct {
 	file *os.File
+	name string
 	EOF  bool
 }
 
@@ -18,6 +19,7 @@ func (fh *FileHandler) OpenFile(file string) {
 	fhdl, err := os.Open(file)
 	check(err)
 	fh.file = fhdl
+	fh.name = fhdl.Name()
 }
 
 //Close will close file
