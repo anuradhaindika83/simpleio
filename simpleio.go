@@ -9,8 +9,8 @@ import (
 
 //FileHandler represents a text file
 type FileHandler struct {
-	file *os.File
-	name string
+	File *os.File
+	Name string
 	EOF  bool
 }
 
@@ -18,13 +18,13 @@ type FileHandler struct {
 func (fh *FileHandler) OpenFile(file string) {
 	fhdl, err := os.Open(file)
 	check(err)
-	fh.file = fhdl
-	fh.name = fhdl.Name()
+	fh.File = fhdl
+	fh.Name = fhdl.Name()
 }
 
 //Close will close file
 func (fh *FileHandler) Close() {
-	fh.file.Close()
+	fh.File.Close()
 }
 
 //ReadLine reads the next line
@@ -32,7 +32,7 @@ func (fh *FileHandler) ReadLine() string {
 	line := ""
 	buf := make([]byte, 1)
 	for {
-		_, err := fh.file.Read(buf)
+		_, err := fh.File.Read(buf)
 		if err == io.EOF {
 			fh.EOF = true
 			return line
@@ -52,10 +52,10 @@ func (fh *FileHandler) ReadLines() []string {
 	line := ""
 	lines := make([]string, 1)
 	buf := make([]byte, 1)
-	fh.file.Seek(0, 0)
+	fh.File.Seek(0, 0)
 	for {
 
-		_, err := fh.file.Read(buf)
+		_, err := fh.File.Read(buf)
 		if err == io.EOF {
 			fh.EOF = true
 			return lines
@@ -75,7 +75,7 @@ func (fh *FileHandler) ReadLines() []string {
 func (fh *FileHandler) ReadBlock(start int64, count int64) string {
 	block := ""
 	buf := make([]byte, count)
-	_, err := fh.file.ReadAt(buf, start)
+	_, err := fh.File.ReadAt(buf, start)
 	block = string(buf)
 	if err == io.EOF {
 		fh.EOF = true
@@ -90,10 +90,10 @@ func (fh *FileHandler) ReadBlock(start int64, count int64) string {
 func (fh *FileHandler) ReadToEnd() string {
 	line := ""
 	buf := make([]byte, 1)
-	fh.file.Seek(0, 0)
+	fh.File.Seek(0, 0)
 	for {
 
-		_, err := fh.file.Read(buf)
+		_, err := fh.File.Read(buf)
 		if err == io.EOF {
 			fh.EOF = true
 			return line
@@ -109,10 +109,10 @@ func (fh *FileHandler) GetLength() int64 {
 	var length int64
 	length = 0
 	buf := make([]byte, 1)
-	fh.file.Seek(0, 0)
+	fh.File.Seek(0, 0)
 	for {
 
-		_, err := fh.file.Read(buf)
+		_, err := fh.File.Read(buf)
 		if err == io.EOF {
 			fh.EOF = true
 			return length
@@ -125,7 +125,7 @@ func (fh *FileHandler) GetLength() int64 {
 
 //Reset will set file reading start position to 0
 func (fh *FileHandler) Reset() {
-	fh.file.Seek(0, 0)
+	fh.File.Seek(0, 0)
 }
 
 func check(e error) {
