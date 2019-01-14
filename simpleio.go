@@ -9,17 +9,43 @@ import (
 
 //FileHandler represents a text file
 type FileHandler struct {
-	File *os.File
-	Name string
-	EOF  bool
+	File                 *os.File
+	Name                 string
+	NameWithOutExtension string
+	Extension            string
+	EOF                  bool
 }
 
 //OpenFile will open a given file for reading
 func (fh *FileHandler) OpenFile(file string) {
 	fhdl, err := os.Open(file)
 	check(err)
+	filename := GetFileNameFromPath(fhdl.Name())
 	fh.File = fhdl
-	fh.Name = fhdl.Name()
+	fh.Name = filename
+	parts := strings.Split(filename, ".")
+	length := len(parts)
+	if length > 0 {
+		fh.Extension = parts[length-1]
+		fh.NameWithOutExtension = strings.Replace(filename, "."+parts[length-1], "", -1)
+	}
+
+}
+
+//GetFileNameFromPath will extract a file name from the given path
+func GetFileNameFromPath(path string) string {
+	parts := strings.Split(path, "\\")
+	length := len(parts)
+	if length > 1 {
+		return parts[length-1]
+	}
+	parts = strings.Split(path, "/")
+	length = len(parts)
+	if length > 1 {
+		return parts[length-1]
+	}
+
+	return ""
 }
 
 //Close will close file
